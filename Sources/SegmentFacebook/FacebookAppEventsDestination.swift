@@ -88,6 +88,10 @@ public class FacebookAppEventsDestination: DestinationPlugin, iOSLifecycle {
             AppEvents.shared.logEvent(truncatedEventName, valueToSum: revenue, parameters: params)
             AppEvents.shared.logPurchase(amount: revenue, currency: currency, parameters: params as? [String: Any])
         } else {
+            if currency.isEmpty {
+                // Some parameters require of currency so we default to USD
+                params[AppEvents.ParameterName.currency] = "USD"
+            }
             AppEvents.shared.logEvent(truncatedEventName, parameters: params)
         }
         
